@@ -1,0 +1,12 @@
+version: '2'
+services:
+  nate-challenge:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
+    volumes:
+    - ./src:/usr/src/service
+    working_dir: /usr/src/service
+    command: bash -c "npm install"

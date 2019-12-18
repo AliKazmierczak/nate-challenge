@@ -1,0 +1,17 @@
+version: "3"
+services:
+  nate-challenge:
+    container_name: nate-challenge
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile
+      context: ./
+      args:
+        SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
+    volumes:
+      - ./src:/usr/src/service
+    working_dir: /usr/src/service
+    ports:
+      - "3000:3000"
+    command: >
+      sh -c "npm start"
