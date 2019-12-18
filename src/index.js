@@ -1,7 +1,10 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require("express");
+const app = express();
+const port = 3000;
+const pages = require("./routes/pages");
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.use("/", pages);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () =>
+  console.log(`Word counting app listening on port ${port}!`)
+);
