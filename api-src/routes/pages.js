@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const cheerio = require("cheerio");
+const cors = require("cors");
+const app = express()
+
+app.use(cors());
 
 router.get("/word-count", async (req, res, next) => {
   let requestedUrl = req.query.url;
@@ -11,7 +15,25 @@ router.get("/word-count", async (req, res, next) => {
     next(new Error("Too many sorting options."));
   }
 
-  axios
+  let statistics = await webWordCounter(requestedUrl);
+
+  res.send(statistics);
+
+  // let sorted = await sortingMachine(statistics, sort);
+  // res.send(sorted)
+});
+
+async function sortingMachine(stat, sort) {
+  switch (Object.values(sort)) {
+    case "asc":
+      if ((Object.keys(sort).pop = "byWords")) {
+        stat.sort();
+      }
+  }
+}
+
+async function webWordCounter(requestedUrl) {
+  let wordCount = axios
     .get(requestedUrl)
     .then(response => {
       if (response.status !== 200) {
@@ -19,27 +41,29 @@ router.get("/word-count", async (req, res, next) => {
       }
       const html = response.data;
       const $ = cheerio.load(html);
-      // Get text
+      
       let receivedTextAsArray = $.text().split(" ");
-      let uniqueWords = {};
+      var uniqueWords = {};
 
       for (word of receivedTextAsArray) {
-          word = word.toLowerCase();
-          word = word.replace(/[^a-z ]/g, "");
+        word = word.toLowerCase();
+        word = word.replace(/[^a-z]/g, "");
+        if (word.length == 0) {
+          continue
+        }
         if (uniqueWords.hasOwnProperty(word) === false) {
           uniqueWords[word] = 1;
-          uniqueWords;
         } else {
           uniqueWords[word]++;
-          uniqueWords;
         }
       }
-
-      res.send(uniqueWords);
+      return uniqueWords;
     })
     .catch(err => {
       next(new Error(err));
     });
-});
+
+  return wordCount;
+}
 
 module.exports = router;

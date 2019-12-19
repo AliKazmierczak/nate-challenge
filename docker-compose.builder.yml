@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 services:
   nate-challenge:
     build:
@@ -7,6 +7,17 @@ services:
       args:
         SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
     volumes:
-    - ./src:/usr/src/service
+      - ./api-src:/usr/src/service
+    working_dir: /usr/src/service
+    command: bash -c "npm install"
+
+  nate-webclient:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
+    volumes:
+      - ./web-src:/usr/src/service
     working_dir: /usr/src/service
     command: bash -c "npm install"
