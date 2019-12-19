@@ -1,6 +1,6 @@
 version: "2"
 services:
-  nate-challenge:
+  nate-api:
     build:
       dockerfile: Dockerfile
       context: .

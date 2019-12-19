@@ -39,3 +39,19 @@
 .bg-nav {
   background-color:#019ad2;
 }
+
+.bg-tourquoise {
+  background-color: turquoise;
+}
+
+.bg-powder {
+  background-color: #b0dfe5;
+}
+
+html, body {
+  height: 100%;
+}
+
+.min-100 {
+  min-height: 100%;
+}

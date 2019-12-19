@@ -1,9 +1,12 @@
 import React from "react";
 import axios from "axios";
+import validator from "validator";
+import Alert from "react-bootstrap/Alert";
 
 class Form extends React.Component {
   state = {
-    url: ""
+    url: "",
+    valid: true
   };
 
   change = e => {
@@ -12,9 +15,24 @@ class Form extends React.Component {
     });
   };
 
+  isFormValid = () => {
+    if (!validator.isURL(this.state.url[0])) {
+      this.setState({
+        valid: false
+      });
+      return false;
+    }
+    this.setState({
+      valid: true
+    });
+    return true;
+  };
+
   onSubmit = e => {
     e.preventDefault();
-    console.log("state w child", this.state);
+    if (!this.isFormValid(e)) {
+      return;
+    }
     this.props.onSubmit(this.state);
     axios
       .get("http://localhost:3000/word-count", {
@@ -26,16 +44,27 @@ class Form extends React.Component {
   };
 
   render() {
+    let alert = null;
+    if (!this.state.valid) {
+      alert = (
+        <Alert variant="danger">
+          {" "}
+          The URL you tried to input is invalid! <br />
+          Please enter the full website adress.
+        </Alert>
+      );
+    }
     return (
       <form>
         <input
           name="url"
-          placeholder="Type in URL you want words counted!"
+          placeholder="Type in an http:// adress"
           value={this.state.url}
           onChange={e => this.change(e)}
         />
         <br />
-        <button onClick={e => this.onSubmit(e)}>Calculate the words!</button>
+        {alert}
+        <button onClick={e => this.onSubmit(e)}>Calculate words!</button>
       </form>
     );
   }

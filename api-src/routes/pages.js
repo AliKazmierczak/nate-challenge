@@ -2,10 +2,6 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const cheerio = require("cheerio");
-const cors = require("cors");
-const app = express()
-
-app.use(cors());
 
 router.get("/word-count", async (req, res, next) => {
   let requestedUrl = req.query.url;
@@ -32,7 +28,7 @@ async function sortingMachine(stat, sort) {
   }
 }
 
-async function webWordCounter(requestedUrl) {
+async function webWordCounter(requestedUrl, next) {
   let wordCount = axios
     .get(requestedUrl)
     .then(response => {
@@ -41,7 +37,7 @@ async function webWordCounter(requestedUrl) {
       }
       const html = response.data;
       const $ = cheerio.load(html);
-      
+
       let receivedTextAsArray = $.text().split(" ");
       var uniqueWords = {};
 
@@ -49,7 +45,7 @@ async function webWordCounter(requestedUrl) {
         word = word.toLowerCase();
         word = word.replace(/[^a-z]/g, "");
         if (word.length == 0) {
-          continue
+          continue;
         }
         if (uniqueWords.hasOwnProperty(word) === false) {
           uniqueWords[word] = 1;
