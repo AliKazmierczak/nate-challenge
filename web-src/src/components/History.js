@@ -11,10 +11,6 @@ class History extends React.Component {
     this.props.passOldUrlResults(statAgain);
   };
 
-  componentWillUpdate(nextProps, nextState) {
-    localStorage.setItem("url", JSON.stringify(nextState.oldUrl));
-  }
-
   render() {
     return (
       <div>
