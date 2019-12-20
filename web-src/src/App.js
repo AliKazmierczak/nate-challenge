@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import Form from "./components/Form";
 import History from "./components/History";
-import Header from "./components/header";
+import TopBar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -26,32 +26,37 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Header />
-        <Container fluid="true" className="min-100">
+        <TopBar />
+        <Container fluid="true">
           <Row className="justify-content-center min-vh-100">
-            <Col className="bg-tourquoise" xs={3}>
-              <br />
-              <p>Enter the URL you want us to calculate words in for you</p>
-              <Form
-                onSubmit={fields => this.newInHistory(fields)}
-                passApiResults={statistics => {
-                  this.setApiResuls(statistics);
-                }}
-              />
+            <Col className="side-col" xs={3}>
+              <div className="sticky-top sticky-top-cm">
+                <p>Enter the URL you want us to calculate words in for you</p>
+                <Form
+                  updateMenuHistory={fields => this.newInHistory(fields)}
+                  passApiResults={statistics => {
+                    this.setApiResuls(statistics);
+                  }}
+                />
+              </div>
             </Col>
 
-            <Col className="bg-powder" xs={6}>
-              <WordCount urlCounted={this.state.urlCount} />
+            <Col className="center-col" xs={6}>
+              <div className="sticky-top sticky-top-cm">
+                <WordCount urlCounted={this.state.urlCount}
+                searchHistory={this.state.historyUrls} />
+              </div>
             </Col>
 
-            <Col className="bg-tourquoise" xs={3}>
-              <br />
-              <History
-                searchHistory={this.state.historyUrls}
-                passOldUrlResults={statAgain => {
-                  this.setApiResuls(statAgain);
-                }}
-              />
+            <Col className="side-col" xs={3}>
+              <div className="sticky-top sticky-top-cm">
+                <History
+                  searchHistory={this.state.historyUrls}
+                  passOldUrlResults={statAgain => {
+                    this.setApiResuls(statAgain);
+                  }}
+                />
+              </div>
             </Col>
           </Row>
         </Container>

@@ -16,9 +16,13 @@ class Form extends React.Component {
   };
 
   isFormValid = () => {
-    if (!validator.isURL(this.state.url[0])) {
+    if (
+      typeof this.state.url[0] == "undefinied" ||
+      !validator.isURL(this.state.url[0])
+    ) {
       this.setState({
-        valid: false
+        valid: false,
+        error_message: "This is not a valid URL address."
       });
       return false;
     }
@@ -33,23 +37,31 @@ class Form extends React.Component {
     if (!this.isFormValid(e)) {
       return;
     }
-    this.props.onSubmit(this.state);
-    let statistics = await axios.get("http://localhost:3000/word-count", {
-      params: { url: this.state.url[0] }
-    });
-    this.props.passApiResults(statistics);
+    axios
+      .get("http://localhost:3000/word-count", {
+        params: { url: this.state.url[0] }
+      })
+      .then(response => {
+        this.props.passApiResults(response);
+        this.props.updateMenuHistory(this.state);
+      })
+      .catch(error => {
+        // nie udalo sie pobrac danych
+        if (error.status != 200) {
+          this.setState({
+            valid: false,
+            error_message:
+              "This URL does not contain any words I could fetch. Please another website adress."
+          });
+          return;
+        }
+      });
   };
 
   render() {
     let alert = null;
     if (!this.state.valid) {
-      alert = (
-        <Alert variant="danger">
-          {" "}
-          The URL you tried to input is invalid! <br />
-          Please enter the full website adress.
-        </Alert>
-      );
+      alert = <Alert variant="danger"> {this.state.error_message}</Alert>;
     }
     return (
       <form>

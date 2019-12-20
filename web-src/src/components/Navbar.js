@@ -1,10 +1,11 @@
 import React from "react";
 import calculator from "./calculator.png";
+import Navbar from "react-bootstrap/Navbar";
 
-class Header extends React.Component {
+class TopBar extends React.Component {
   render() {
     return (
-      <nav className="navbar navbar-dark bg-nav">
+      <Navbar className="navbar navbar-dark bg-nav fixed-top">
         <a className="navbar-brand" href="https://www.nate.tech/">
           <img
             src={calculator}
@@ -15,9 +16,9 @@ class Header extends React.Component {
           />
           Engineering challenge for nate
         </a>
-      </nav>
+      </Navbar>
     );
   }
 }
 
-export default Header;
+export default TopBar;
