@@ -4,35 +4,31 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const { wordsCountMiddleware } = require("./middleware");
 
-router.get("/word-count", wordsCountMiddleware, async (req, res, next) => {
+router.get("/word-count", wordsCountMiddleware, async (req, res) => {
   let requestedUrl = req.query.url;
   console.log(typeof req.query.url, req.query.url);
 
-
   try {
-    let wordsArray = await webWordExtracter(requestedUrl);
+    let stringFromUrl = await webWordExtractor(requestedUrl);
+    let arrayOfWords = stringWordExtractor(stringFromUrl);
+    let statistics = wordCounter(arrayOfWords);
 
-    let statistics = await wordCounter(wordsArray);
-  
     res.send(statistics);
-  }
-  catch(error) {
+  } catch (error) {
     res.status(400).send({ error_message: error.message });
   }
-
-  // let sorted = await sortingMachine(statistics, sort);
-  // res.send(sorted)
 });
 
-async function arraySorter(array, sort) {
-  switch (Object.values(sort)) {
-    case "asc":
-      if ((Object.keys(sort).pop = "byWords")) {
-        array.sort();
-      }
-  }
-}
-async function webWordExtracter(requestedUrl) {
+// async function arraySorter(array, sort) {
+//   switch (Object.values(sort)) {
+//     case "asc":
+//       if ((Object.keys(sort).pop = "byWords")) {
+//         array.sort();
+//       }
+//   }
+// }
+
+async function webWordExtractor(requestedUrl) {
   let pageWords = axios
     .get(requestedUrl)
     .then(response => {
@@ -40,21 +36,24 @@ async function webWordExtracter(requestedUrl) {
         throw new Error("The website is unavaliable, sorry.");
       }
       const html = response.data;
-      const $ = cheerio.load(html);
-
-      let receivedTextAsArray = $.text().split(/[^a-zA-Z]/);
-
-      return receivedTextAsArray;
+      const stringOfWords = cheerio.load(html);
+      return stringOfWords.text();
     })
-    .catch(err => {
-      throw new Error(err);
+    .catch(error => {
+      throw error
     });
 
   return pageWords;
 }
 
-async function wordCounter(receivedTextAsArray) {
-  var uniqueWords = {};
+function stringWordExtractor(stringFromUrl) {
+  let receivedTextAsArray = stringFromUrl.split(/[^a-zA-Z]/);
+
+  return receivedTextAsArray;
+}
+
+function wordCounter(receivedTextAsArray) {
+  let uniqueWords = {};
 
   for (word of receivedTextAsArray) {
     word = word.toUpperCase();
@@ -75,3 +74,6 @@ async function wordCounter(receivedTextAsArray) {
 }
 
 module.exports = router;
+module.exports.webWordExtracter = webWordExtractor;
+module.exports.wordCounter = wordCounter;
+module.exports.stringWordExtractor = stringWordExtractor;
