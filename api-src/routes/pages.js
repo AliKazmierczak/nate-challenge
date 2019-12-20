@@ -53,7 +53,13 @@ async function webWordCounter(requestedUrl, next) {
           uniqueWords[word]++;
         }
       }
-      return uniqueWords;
+      let arrayOfUniqueWords = Object.keys(uniqueWords).map(wordElement => {
+        return {
+          word: wordElement,
+          count: uniqueWords[wordElement]
+        };
+      });
+      return arrayOfUniqueWords;
     })
     .catch(err => {
       next(new Error(err));

@@ -28,19 +28,16 @@ class Form extends React.Component {
     return true;
   };
 
-  onSubmit = e => {
+  onSubmit = async function(e) {
     e.preventDefault();
     if (!this.isFormValid(e)) {
       return;
     }
     this.props.onSubmit(this.state);
-    axios
-      .get("http://localhost:3000/word-count", {
-        params: { url: this.state.url[0] }
-      })
-      .then(function(responce) {
-        console.log(responce);
-      });
+    let statistics = await axios.get("http://localhost:3000/word-count", {
+      params: { url: this.state.url[0] }
+    });
+    this.props.passApiResults(statistics);
   };
 
   render() {
