@@ -19,15 +19,6 @@ router.get("/word-count", wordsCountMiddleware, async (req, res) => {
   }
 });
 
-// async function arraySorter(array, sort) {
-//   switch (Object.values(sort)) {
-//     case "asc":
-//       if ((Object.keys(sort).pop = "byWords")) {
-//         array.sort();
-//       }
-//   }
-// }
-
 async function webWordExtractor(requestedUrl) {
   let pageWords = axios
     .get(requestedUrl)
@@ -40,7 +31,7 @@ async function webWordExtractor(requestedUrl) {
       return stringOfWords.text();
     })
     .catch(error => {
-      throw error
+      throw error;
     });
 
   return pageWords;

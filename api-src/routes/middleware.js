@@ -14,7 +14,7 @@ function validateUrl(url) {
   if (!validator.isURL(url)) {
     throw new Error("This is not a valid URL adress.");
   }
-  return true
+  return true;
 }
 
 function sanitizeUrl(url) {
@@ -23,11 +23,6 @@ function sanitizeUrl(url) {
   }
   return url;
 }
-// function validateSort(sort) {
-//   if (sort && Object.keys(sort).length > 1) {
-//     throw new Error("Please pick only one sorting option.");
-//   }
-// }
 
 module.exports.wordsCountMiddleware = wordsCountMiddleware;
 module.exports.validateUrl = validateUrl;

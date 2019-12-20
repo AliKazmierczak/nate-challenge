@@ -2,8 +2,10 @@ import React from "react";
 import axios from "axios";
 import validator from "validator";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-class Form extends React.Component {
+class UserInput extends React.Component {
   state = {
     url: "",
     valid: true
@@ -16,10 +18,8 @@ class Form extends React.Component {
   };
 
   isFormValid = () => {
-    if (
-      typeof this.state.url[0] == "undefinied" ||
-      !validator.isURL(this.state.url[0])
-    ) {
+    let currentUrl = this.state.url[0];
+    if (typeof currentUrl == "undefined" || !validator.isURL(currentUrl)) {
       this.setState({
         valid: false,
         error_message: "This is not a valid URL address."
@@ -47,7 +47,7 @@ class Form extends React.Component {
       })
       .catch(error => {
         // nie udalo sie pobrac danych
-        if (error.status != 200) {
+        if (error.status !== 200) {
           this.setState({
             valid: false,
             error_message:
@@ -64,19 +64,27 @@ class Form extends React.Component {
       alert = <Alert variant="danger"> {this.state.error_message}</Alert>;
     }
     return (
-      <form>
+      <Form>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" placeholder="Type in an http:// adress" />
+
+        </Form.Group>
         <input
           name="url"
-          placeholder="Type in an http:// adress"
+          
           value={this.state.url}
           onChange={e => this.change(e)}
         />
         <br />
         {alert}
-        <button onClick={e => this.onSubmit(e)}>Calculate words!</button>
-      </form>
+        <br />
+        <Button variant="primary" onClick={e => this.onSubmit(e)}>
+          Calculate words!
+        </Button>
+      </Form>
     );
   }
 }
 
-export default Form;
+export default UserInput;

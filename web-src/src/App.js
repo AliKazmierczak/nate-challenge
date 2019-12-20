@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Form from "./components/Form";
+import UserInput from "./components/UserInput";
 import History from "./components/History";
 import TopBar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -32,7 +32,7 @@ class App extends React.Component {
             <Col className="side-col" xs={3}>
               <div className="sticky-top sticky-top-cm">
                 <p>Enter the URL you want us to calculate words in for you</p>
-                <Form
+                <UserInput
                   updateMenuHistory={fields => this.newInHistory(fields)}
                   passApiResults={statistics => {
                     this.setApiResuls(statistics);
