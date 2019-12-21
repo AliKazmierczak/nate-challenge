@@ -4,7 +4,7 @@ import axios from "axios";
 
 class History extends React.Component {
   backToHistory = async function(link) {
-    console.log(link.target.value);
+
     let statAgain = await axios.get("http://localhost:3000/word-count", {
       params: { url: link.target.value }
     });
@@ -14,7 +14,7 @@ class History extends React.Component {
   render() {
     return (
       <div>
-        <p>History of broased sites:</p>
+        <h4>History of broased sites:</h4>
 
         {this.props.searchHistory.map((historyElement, index) => {
           return (

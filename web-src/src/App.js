@@ -31,7 +31,7 @@ class App extends React.Component {
           <Row className="justify-content-center min-vh-100">
             <Col className="side-col" xs={3}>
               <div className="sticky-top sticky-top-cm">
-                <p>Enter the URL you want us to calculate words in for you</p>
+
                 <UserInput
                   updateMenuHistory={fields => this.newInHistory(fields)}
                   passApiResults={statistics => {

@@ -6,7 +6,6 @@ const { wordsCountMiddleware } = require("./middleware");
 
 router.get("/word-count", wordsCountMiddleware, async (req, res) => {
   let requestedUrl = req.query.url;
-  console.log(typeof req.query.url, req.query.url);
 
   try {
     let stringFromUrl = await webWordExtractor(requestedUrl);

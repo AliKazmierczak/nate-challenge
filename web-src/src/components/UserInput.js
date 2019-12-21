@@ -46,7 +46,6 @@ class UserInput extends React.Component {
         this.props.updateMenuHistory(this.state);
       })
       .catch(error => {
-        // nie udalo sie pobrac danych
         if (error.status !== 200) {
           this.setState({
             valid: false,
@@ -66,16 +65,18 @@ class UserInput extends React.Component {
     return (
       <Form>
         <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Type in an http:// adress" />
-
+          <h4>
+            Enter the URL you want us to calculate words in for you:
+          </h4>
+          <br />
+          <Form.Control
+            type="text"
+            placeholder="Type in an http:// adress"
+            name="url"
+            value={this.state.url}
+            onChange={e => this.change(e)}
+          />
         </Form.Group>
-        <input
-          name="url"
-          
-          value={this.state.url}
-          onChange={e => this.change(e)}
-        />
         <br />
         {alert}
         <br />

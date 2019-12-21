@@ -44,9 +44,6 @@
   background-color: turquoise;
 }
 
-.bg-powder {
-}
-
 .main-app {
   height: min-vh-100;
 }
@@ -78,5 +75,5 @@ body {
 }
 
 .sticky-top-cm {
-  padding-top: 70px;
+  padding-top: 90px;
 }

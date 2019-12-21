@@ -5,7 +5,7 @@ class WordCount extends React.Component {
   render() {
     return (
       <div>
-        Words Counted from {this.props.searchHistory.slice(-1)[0]}:
+       <h3>Words Counted from {this.props.searchHistory.slice(-1)[0]}:</h3> 
         <Table striped bordered hover className="table-width">
   <thead>
     <tr>
