@@ -2,7 +2,7 @@ version: "2"
 services:
   nate-api:
     build:
-      dockerfile: Dockerfile
+      dockerfile: api-src/Dockerfile
       context: .
       args:
         SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
@@ -13,7 +13,7 @@ services:
 
   nate-webclient:
     build:
-      dockerfile: Dockerfile
+      dockerfile: web-src/Dockerfile
       context: .
       args:
         SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}

@@ -24,6 +24,10 @@ Simply run the following in your terminal:
 ```
 ./run.sh install
 ```
+If an error will occur, run first:
+```
+chmod +x run.sh
+```
 
 #### 2.2. Run local development
 This step will:
